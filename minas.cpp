@@ -117,132 +117,6 @@ void imprimir_inicial(){
 	cout << endl;
 }
 
-// void liberar_casas(char matriz[TAM][TAM], char matriz_hide[TAM][TAM], int x, int y, int direcao){
-// 	if (direcao == 1) //DIAGONAL ESQUEDA SUPERIOR
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				x--;
-// 				y--;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-
-// 	if (direcao == 2) //CIMA
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				x--;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-
-// 	if (direcao == 3) //DIAGONAL DIREITA SUPERIOR
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				x--;
-// 				y++;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-
-// 	if (direcao == 4) //ESQUERDA
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				y--;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-
-// 	if (direcao == 5) //DIREITA
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				y++;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-
-// 	if (direcao == 6) //DIAGONAL ESQUERDA INFERIOR
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				x++;
-// 				y--;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-
-// 	if (direcao == 7) //BAIXO
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				x++;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-
-// 	if (direcao == 8) //DIAGONAL DIREITA INFERIOR
-// 	{
-// 		while(matriz[x][y] == '-')
-// 		{
-// 			if (x > 0 && y > 0)
-// 			{
-// 				matriz_hide[x][y]=matriz[x][y];
-// 				x++;
-// 				y++;
-// 			}
-// 			else
-// 				break;
-// 		}
-// 		matriz_hide[x][y]=matriz[x][y];
-// 	}
-// }
-
 void liberar_casas1(char matriz[TAM][TAM], char matriz_hide[TAM][TAM], int visitados[TAM][TAM], int i, int j){
 
 	matriz_hide[i][j] = matriz[i][j];
@@ -298,7 +172,7 @@ void liberar_casas1(char matriz[TAM][TAM], char matriz_hide[TAM][TAM], int visit
 void imprimir_jogo(char matriz[TAM][TAM], char matriz_hide[TAM][TAM],int visitados[TAM][TAM], int i, int j,int escolha){
 	
 	if(escolha == 2)
-		matriz_hide[i][j] = 'b';
+		matriz_hide[i][j] = '@';
 
 	else
 	{
@@ -317,7 +191,7 @@ int ganhar(char matriz_hide[TAM][TAM]){
 	{
 		for (int j = 1; j < TAM-1; ++j)
 		{
-			if (matriz_hide[i][j] = '-')
+			if (matriz_hide[i][j] == '-')
 			{
 				return 0;
 			}
@@ -341,7 +215,8 @@ int main(){
 
 	printf("\e[H\e[2J");
 	imprimir_inicial();
-	while(perdeu != 1 || ganhou != 1)
+
+	while(ganhou == 0)
 	{
 		cout << "1 - COORDENADAS" << endl;
 		cout << "2 - MARCAR BOMBA" << endl;
@@ -367,17 +242,16 @@ int main(){
 		}
 		
 		printf("\e[H\e[2J");
-		//imprimir_matriz(matriz);
 		imprimir_jogo(matriz, matriz_hide,visitados, x, y, escolha);
 
 		ganhou = ganhar(matriz_hide);
 
 	}
 	
-	if (perdeu == 0)
+	if (perdeu == 1)
 		cout << "SINTO MUITO, VOCE PERDEU :(" << endl;
 	if (ganhou == 1)
-		cout << "PARABENS, VOCE GANHOU :(" << endl;
+		cout << "PARABENS, VOCE GANHOU :)" << endl;
 
 	return 0;
 }

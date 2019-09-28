@@ -7,7 +7,7 @@
 using namespace std;
 
 // ========================= CARREGAR TABULEIRO ============================
-void carregar_tabuleiro(char matriz[TAM][TAM],char matriz_hide[TAM][TAM]){
+void carregar_tabuleiro(char matriz[TAM][TAM],char matriz_hide[TAM][TAM], int x, int y){
 	int bombaX, bombaY;
 	
 	for (int i=0; i<TAM; i++)
@@ -36,7 +36,7 @@ void carregar_tabuleiro(char matriz[TAM][TAM],char matriz_hide[TAM][TAM]){
 			bombaX = rand()% 9 + 1;
 			bombaY = rand()% 9 + 1;
 		
-		}while(matriz[bombaX][bombaY] == '0');
+		}while((matriz[bombaX][bombaY] == '0' || (bombaX == x && bombaY == y)));
 		
 		matriz[bombaX][bombaY] = '0';
 	}
@@ -206,45 +206,46 @@ int main(){
 	char matriz_hide[TAM][TAM];
 	int visitados[TAM][TAM];
 
-	inicializar_matriz(visitados);
-	carregar_tabuleiro(matriz, matriz_hide);
-	imprimir_matriz(matriz);
-
-	int perdeu =0, ganhou =0, escolha;
+	int perdeu =0, ganhou =0, escolha, primeira = 1;
 	int x, y, bomba;
 
 	printf("\e[H\e[2J");
 	imprimir_inicial();
 
-	while(ganhou == 0)
+	inicializar_matriz(visitados);
+	
+
+	while(ganhou == 0 && perdeu == 0)
 	{
 		cout << "1 - COORDENADAS" << endl;
 		cout << "2 - MARCAR BOMBA" << endl;
+		cout << "3 - DESMARCAR BOMBA" << endl;
 		cout << "escolha: ";
 		cin >> escolha;
 
 		if (escolha == 1)
-		{
 			cout << "COORDENADAS: ";
-			
-		}
 		if (escolha == 2)
-		{
 			cout << "MARCAR BOMBA: ";
-		}
+		if (escolha == 3)
+			cout << "DESMARCAR BOMBA: ";
 
 		cin >> x >> y ;
+
+		if(primeira == 1){
+			carregar_tabuleiro(matriz, matriz_hide, x, y);
+		}
 
 		if (escolha == 1 && matriz[x][y] == '0')
 		{
 			perdeu = 1;
-			break;
 		}
 		
 		printf("\e[H\e[2J");
 		imprimir_jogo(matriz, matriz_hide,visitados, x, y, escolha);
 
 		ganhou = ganhar(matriz_hide);
+		primeira = 0;
 
 	}
 	
